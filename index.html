@@ -25,12 +25,22 @@
         $("#region").html(city);
       $("#temp").html(tempC + " °C");
 
-
-
+        var tempDecide = false;
         $("#convert").on("click", function(){
+
+          if (tempDecide == true){
           $("#temp").html(tempF + " °F");
           $("#convert").html("Convert to Celsius");
+          tempDecide = false;
+        }
+          else if(tempDecide == false){
+          $("#temp").html(tempC + " °C");
+          $("#convert").html("Convert to Fahrenheit");
+          tempDecide = true;
+          }
         });
+
+
 
 
 
