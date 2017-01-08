@@ -1,0 +1,96 @@
+<html>
+<head>
+  <link rel="stylesheet" href="css/style.css" type="text/css"/>
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script type="text/javascript" src="js/script.js"></script>
+  <script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+</head>
+<body>
+  <script>
+  if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var lat = position.coords.latitude;
+    var lng = position.coords.longitude;
+
+    var api = "https://www.crossorigin.me/https://api.darksky.net/forecast/";
+    var apiKey = "c54573f7de93d73a3ce7357548cfb404/"
+
+      $.getJSON(api + apiKey + lat + "," + lng, function(value){
+        var region = value.timezone;
+        region = (value.timezone).split("/");
+        var city = region[1];
+        var tempF = value.currently.temperature;
+        var tempC = ((tempF - 32) * 5 / 9).toFixed(2);
+        $("#region").html(city);
+      $("#temp").html(tempC + " °C");
+
+
+
+        $("#convert").on("click", function(){
+          $("#temp").html(tempF + " °F");
+          $("#convert").html("Convert to Celsius");
+        });
+
+
+
+
+        var weatherDesc = value.currently.icon;
+        switch(weatherDesc) {
+          case ("partly-cloudy-night" || "partly-cloudy-day" || "cloudy"):
+            $("body").css("background-image", "url('http://www.gazetteseries.co.uk/resources/images/5360796/')");
+            break;
+          case ("clear-day" || "clear-night"):
+            $("body").css("background-image", "url('http://img12.deviantart.net/8e4f/i/2013/159/0/8/clear_day_by_thorero-d68c8ic.jpg')");
+            break;
+          case ("snow" || "sleet"):
+            $("body").css("background-image", "url('http://freebigpictures.com/wp-content/uploads/snowy-park.jpg')");
+            break;
+          case ("rain"):
+            $("body").css("background-image", "url('http://combiboilersleeds.com/images/rainy/rainy-1.jpg')");
+            break;
+          case "wind":
+            $("body").css("background-image", "url('http://media.mnn.com/assets/images/2016/05/01-windydog-carloscherer.jpg.838x0_q80.jpg')");
+            break;
+          case "fog":
+            $("body").css("background-image", "url('http://efdreams.com/data_images/dreams/fog/fog-02.jpg')");
+            break;
+
+
+
+                          }
+
+    });
+  });
+}
+
+
+
+  </script>
+
+
+  <div class="text-center">
+    <div class="BGbox">
+<div style="font-family: 'Josefin Sans', sans-serif" id="data">
+  <h4>You are in</h3>
+  <h2 id ="region">Loading...<br></h4>
+
+
+<div>
+    <h4>Your local temperature is</h3>
+  <h2 id ="temp">Loading...<br></h4>
+</div><br>
+<button id="convert" class="btn">Convert to Fahrenheit</button>
+  </div>
+<div>
+</div>
+<footer class="text-center">
+    <hr>
+    <p style="color: #e2e2e2">Written and coded by <a href="https://codepen.io/cazwazacz" target="_blank">Allan Wazacz</a>. Powered by <a href="https://darksky.net/poweredby/" target="_blank">Dark Sky</a>.</p>
+  </footer>
+
+    </div>
+  </div>
+</body>
+
+</html>
